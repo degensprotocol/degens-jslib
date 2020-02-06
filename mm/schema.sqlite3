@@ -1,0 +1,24 @@
+PRAGMA encoding = "UTF-8";
+PRAGMA foreign_keys = ON;
+
+
+-- Orders
+
+CREATE TABLE LiveOrder (
+    orderId INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    degensMatchId TEXT NOT NULL,
+    direction INTEGER NOT NULL,
+    price INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    expiry INTEGER NOT NULL,
+
+    maker TEXT NOT NULL,
+    token TEXT NOT NULL,
+    amount TEXT NOT NULL,
+    orderGroup TEXT NOT NULL,
+    fillHash TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS LiveOrder_degensMatchId ON LiveOrder(degensMatchId);
+CREATE INDEX IF NOT EXISTS LiveOrder_expiry ON LiveOrder(expiry);
