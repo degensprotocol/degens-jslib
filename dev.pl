@@ -15,7 +15,10 @@ if ($cmd eq 'dist') {
     files => {
       'DegensUtils.js' => '/usr/degens/jslib/DegensUtils.js',
       'OrderbookClient.js' => '/usr/degens/jslib/OrderbookClient.js',
+      'DegensClient.js' => '/usr/degens/jslib/DegensClient.js',
       'DegensContractLib.js' => '/usr/degens/jslib/DegensContractLib.js',
+      'PermitToken.js' => '/usr/degens/jslib/PermitToken.js',
+
       '../../degens-contract/build/Degens.json' => '/usr/degens/jslib/Degens.json',
     },
     deps => [qw/
