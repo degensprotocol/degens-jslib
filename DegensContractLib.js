@@ -239,6 +239,15 @@ class Order {
         return this.signature;
     }
 
+    verifySignature(contractAddr, chainId) {
+        if (!this.signature) throw(`signature hasn't been added to order`);
+        if (this.signatureIsLegacy) throw(`verifying legacy signatures not yet supported`);
+        let hash = this.computeHash(contractAddr, chainId);
+        let sig = ethers.utils.joinSignature(unpackSignature(this.signature));
+        let addr = ethers.utils.recoverAddress(hash, sig);
+        return addr.toLowerCase() === this.fields.maker.toLowerCase();
+    }
+
     asExecutionPacked() {
         return this._packFirstTwoWords().concat(this.signature);
     }
@@ -319,6 +328,16 @@ function packSignature(sig) {
 
     if (sig.v === 28) msb |= 128;
     return [sig.r, hexNormalize(msb, 1) + sig.s.substr(4)];
+}
+
+function unpackSignature(packed) {
+    let msb = parseInt(packed[1].substr(2,2), 16);
+
+    return {
+        r: packed[0],
+        s: hexNormalize(msb & 127, 1) + packed[1].substr(4),
+        v: (msb & 128) ? 28 : 27,
+    };
 }
 
 function encodeClaimTargets(targets) {
