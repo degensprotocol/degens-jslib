@@ -1,9 +1,12 @@
 const ethers = require('ethers');
 const WebSocket = require('ws');
-const {applyPatches} = require('immer');
+const {applyPatches, enablePatches} = require('immer');
 
 const OrderbookClient = require('./OrderbookClient');
 const degensUtils = require('./DegensUtils');
+
+
+enablePatches();
 
 
 const defaultOpts = {

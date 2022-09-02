@@ -201,7 +201,8 @@ class Order {
 
     signWithPrivateKey(privateKey, contractAddress, chainId) {
         let signingKey = new ethers.utils.SigningKey(privateKey);
-        if (hexNormalize(signingKey.address, 20) !== this.fields.maker) throw("private key's address does not match maker field");
+        let address = (new ethers.Wallet(signingKey.privateKey)).address;
+        if (hexNormalize(address, 20) !== this.fields.maker) throw("private key's address does not match maker field");
         let hash = this.computeHash(contractAddress, chainId);
         let signature = signingKey.signDigest(hash);
         this.addSignature(packSignature(signature));
